@@ -1,85 +1,98 @@
-# 🖥️ Comércio de Periféricos para Computador — Análise de Vendas (SQL + Power BI)
+# E-commerce Sales Analytics
 
-Projeto de portfólio que simula a operação de uma **rede de lojas de tecnologia** que realiza vendas online e físicas de periféricos para computador.  
-O objetivo é **analisar o desempenho de vendas, lucro e comportamento dos clientes** utilizando **SQL para tratamento e modelagem dos dados** e **Power BI para visualização e geração de insights**.
+![Power BI](https://img.shields.io/badge/Power%20BI-dashboard-F2C811?logo=powerbi&logoColor=000)
+![MySQL](https://img.shields.io/badge/MySQL-analytics-4479A1?logo=mysql&logoColor=fff)
+![Project status](https://img.shields.io/badge/status-portfolio%20project-2ea44f)
 
----
+An end-to-end analytics portfolio project for a fictional computer-peripherals retailer. It combines a relational MySQL dataset, business-focused SQL analysis, and an interactive Power BI dashboard to turn sales data into actionable insights.
 
-## 📊 Objetivo do Projeto
+## Project goals
 
-Criar um pipeline completo de análise de dados:
-1. **Modelagem e criação do banco de dados** em MySQL;
-2. **Consultas SQL** para gerar indicadores e métricas de negócio;
-3. **Integração com o Power BI**;
-4. **Desenvolvimento de um dashboard interativo** com KPIs e visualizações gerenciais.
+- Model a realistic retail operation with customers, products, categories, stores, locations, and orders.
+- Explore sales performance, customer behavior, profitability, and product mix with reusable SQL queries.
+- Present executive-level KPIs and trends in a Power BI dashboard.
+- Demonstrate practical data analytics skills: relational modeling, exploratory analysis, KPI design, and data storytelling.
 
----
+## Repository structure
 
-## 🧩 Estrutura do Banco de Dados
+```text
+.
+├── Database/
+│   ├── customers.sql
+│   ├── categories.sql
+│   ├── locations.sql
+│   ├── stores.sql
+│   ├── orders.sql
+│   └── products.sql
+├── MySQL-KPIs/
+│   ├── 01-exploratory-analysis.sql
+│   ├── 02-relational-analysis.sql
+│   ├── 03-margin-and-profitability.sql
+│   └── 04-customer-and-product-kpis.sql
+└── PowerBI-Dashboard/
+    ├── ecommerce-sales-dashboard.pbix
+    ├── dashboard-preview.jpg
+    └── relational-model.jpg
+```
 
-O banco foi modelado com base em um cenário de vendas de produtos tecnológicos, com 6 tabelas principais:
+> The SQL table and column names remain in their original Portuguese form because they are part of the existing data model referenced by the Power BI report. Documentation, folder names, query comments, and query output aliases are in English.
 
-**clientes**: Dados demográficos e socioeconômicos dos clientes
-**pedidos**: Informações de cada venda (data, receita, custo, quantidade, etc.)
-**produtos**: Catálogo de produtos e suas características
-**categorias**: Classificação dos produtos
-**lojas**: Informações das lojas físicas e seus gerentes
-**locais**: Localização geográfica das lojas
+## Data model
 
----
+The model contains six core entities:
 
-## 🧱 Modelagem Relacional
+| Entity | Purpose |
+| --- | --- |
+| `clientes` | Customer demographics and socioeconomic attributes |
+| `pedidos` | Order-level sales, revenue, cost, and quantity data |
+| `produtos` | Product catalog and product attributes |
+| `categorias` | Product category hierarchy |
+| `lojas` | Physical store and manager information |
+| `locais` | Geographic information for stores |
 
-- **Relação 1:N** entre `clientes` e `pedidos`  
-- **Relação 1:N** entre `produtos` e `pedidos`  
-- **Relação 1:N** entre `lojas` e `pedidos`  
-- **Relação 1:N** entre `categorias` e `produtos`  
-- **Relação 1:1** entre `lojas` e `locais`  
+Relationships:
 
-**Chaves Primárias e Estrangeiras:**
-- `clientes.id_cliente` → `pedidos.id_cliente`
-- `produtos.id_produto` → `pedidos.id_produto`
-- `lojas.id_loja` → `pedidos.id_loja`
-- `categorias.id_categoria` → `produtos.id_categoria`
+- `clientes` 1:N `pedidos`
+- `produtos` 1:N `pedidos`
+- `lojas` 1:N `pedidos`
+- `categorias` 1:N `produtos`
+- `lojas` 1:1 `locais`
 
----
+![Relational model](PowerBI-Dashboard/relational-model.jpg)
 
-## 💾 Etapas no MySQL
+## Analysis workflow
 
-1. Criação das tabelas [Banco de Dados](https://github.com/Marinopl/e-commerce-perifericos-pc/tree/main/Banco%20de%20Dados);
-2. Criação das Chaves Primárias (PKs) para cada tabela e conexão por Engenharia Reversa no MySQL Workbench;
-3. **Parte1-EDA**: Realização de Análise Exploratória dos dados (EDA), entendendo métricas e dimensões -> utilizando-se SELECT, COUNT(), FROM e GROUP BY;
-4. **Parte2-Relacional**: Entendendo as ferramentas relacionais entre as tabelas e criando KPIs relevantes para a análise -> utilizando-se JOIN E ORDER BY;
-5. **Parte3-Margem&Lucro**: Encontrando KPIs relevantes para insights de negócio;
-6. **Parte4-KPIs**: Encontrando KPIs relevantes para insightes de produto e clientes.
+1. Import the SQL files in `Database/` into a MySQL database.
+2. Run the scripts in `MySQL-KPIs/` in order:
+   - **Exploratory analysis:** dataset dimensions, customer distribution, and product pricing.
+   - **Relational analysis:** store, category, product, and customer performance.
+   - **Margin and profitability:** revenue, profit, and margin by product, category, and store.
+   - **Customer and product KPIs:** revenue by income segment and repeat-order behavior.
+3. Open `PowerBI-Dashboard/ecommerce-sales-dashboard.pbix`.
+4. Update the MySQL connection if needed and refresh the report.
 
-![Modelo Relacional](https://github.com/Marinopl/e-commerce-perifericos-pc/blob/main/Dashboard-PowerBI/relacional.jpg)
+## Dashboard highlights
 
---- 
+The report focuses on:
 
-## 🔗 Integração com Power BI
+- Total revenue and profit
+- Average order value
+- Profit margin
+- Customer count
+- Revenue and profit by store and city
+- Revenue trends over time
+- Cost and profit by brand
+- Revenue by product category
+- Customer segmentation by education level
 
-* Conexão direta com o servidor MySQL local
-* Configuração das relações conforme modelo relacional
-* Criação de medidas DAX para cálculos dinâmicos para os KPIs
+![Dashboard preview](PowerBI-Dashboard/dashboard-preview.jpg)
 
----
+## Tools
 
-## 📊 Dashboard - Power BI
+- **MySQL** for relational storage and analytical queries
+- **Power BI** for data modeling, DAX measures, and visualization
+- **SQL** for exploratory analysis and business KPI development
 
-* KPIs Principais
-  - Receita Total;
-  - Lucro Total;
-  - Ticket Médio;
-  - Margem de Lucro;
-  - Número de Clientes;
- 
-* [Principais visualizações no dashboard](https://github.com/Marinopl/e-commerce-perifericos-pc/tree/main/Dashboard-PowerBI)
-  - Receita e Lucro por Cidade -> Identificar quais lojas eram mais lucrativas;
-  - Lucro por Nº de Funcionário -> Avaliar a produtividade das lojas;
-  - Receita total por Mês -> Observar a tendência temporal das vendas;
-  - Lucro e Custo por Marca -> Analisar tendência de Marcas;
-  - Receita por Categoria -> Entender participação por linha de produto;
-  - Filtros por escolaridade -> Segmentar o público consumidor.
+## Portfolio takeaways
 
- ![Previwe do Dashboard](https://github.com/Marinopl/e-commerce-perifericos-pc/blob/main/Dashboard-PowerBI/dashboard_preview.jpg)
+This project demonstrates the complete path from raw relational data to a decision-ready dashboard. It is intentionally structured so that each analytical question can be traced back to the source tables and reproduced in MySQL.
